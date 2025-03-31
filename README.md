@@ -6,7 +6,7 @@ Implementation of the CST820 touch controller with esp_lcd_touch component.
 
 | Touch controller | Communication interface |    Component name     |                             Link to datasheet                              |
 | :--------------: | :---------------------: | :-------------------: | :------------------------------------------------------------------------: |
-|     CST820       |           I2C           | esp_lcd_touch_cst820 | [datasheet](https://github.com/kodediy/esp_lcd_touch_cst820/CST820_Datasheet_V1.2.pdf) |
+|     CST820       |           I2C           | esp_lcd_touch_cst820 | [datasheet](https://github.com/kodediy/esp_lcd_touch_cst820/blob/main/CST820_Datasheet_V1.2.pdf) |
 
 
 ## Add to project
