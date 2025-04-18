@@ -57,6 +57,20 @@ esp_err_t esp_lcd_touch_new_i2c_cst820(const esp_lcd_panel_io_handle_t io, const
         .scl_speed_hz = 100000                            \
     }
 
+/**
+ * @brief Establece el offset de calibración para el touch CST820
+ * @param offset_x Offset en X (positivo desplaza a la derecha)
+ * @param offset_y Offset en Y (positivo desplaza hacia abajo)
+ */
+void cst820_set_touch_offset(int16_t offset_x, int16_t offset_y);
+
+/**
+ * @brief Obtiene el offset de calibración actual del touch CST820
+ * @param offset_x Puntero donde se almacena el offset X
+ * @param offset_y Puntero donde se almacena el offset Y
+ */
+void cst820_get_touch_offset(int16_t *offset_x, int16_t *offset_y);
+
 #ifdef __cplusplus
 }
 #endif
