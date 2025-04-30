@@ -1,11 +1,12 @@
-version: "1.0.0"
-description: ESP LCD Touch CST820 - touch controller CST820
+version: "1.0.1"
+description: ESP LCD Touch CST820
 url: https://github.com/kodediy/esp_lcd_touch_cst820
 repository: https://github.com/kodediy/esp_lcd_touch_cst820.git
 issues: https://github.com/kodediy/esp_lcd_touch_cst820/issues
 license: Apache-2.0
 dependencies:
   idf: ">=5.0.0"
+  cmake_utilities: "0.*"
   esp_lcd_touch:
     version: "^1.0.4"
     public: true

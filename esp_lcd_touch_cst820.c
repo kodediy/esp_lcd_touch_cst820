@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 kode.
+ * SPDX-FileCopyrightText: 2025 KODE DIY, SL
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,7 @@
 #define DATA_START_REG      (0x02)
 #define CHIP_ID_REG         (0xA7)
 
-static const char *TAG = "CST820";
+static const char *TAG = "CST820 Driver";
 
 static esp_err_t read_data(esp_lcd_touch_handle_t tp);
 static bool get_xy(esp_lcd_touch_handle_t tp, uint16_t *x, uint16_t *y, uint16_t *strength, uint8_t *point_num, uint8_t max_point_num);
@@ -33,21 +33,19 @@ static esp_err_t i2c_read_bytes(esp_lcd_touch_handle_t tp, uint16_t reg, uint8_t
 static esp_err_t reset(esp_lcd_touch_handle_t tp);
 static esp_err_t read_id(esp_lcd_touch_handle_t tp);
 
-// --- Gestión de offset de calibración ---
 static int16_t s_offset_x = 0;
 static int16_t s_offset_y = 0;
 
 void cst820_set_touch_offset(int16_t offset_x, int16_t offset_y) {
     s_offset_x = offset_x;
     s_offset_y = offset_y;
-    ESP_LOGI(TAG, "Offset de touch actualizado: x=%hd, y=%hd", offset_x, offset_y);
+    ESP_LOGI(TAG, "Updated touch offset: x=%hd, y=%hd", offset_x, offset_y);
 }
 
 void cst820_get_touch_offset(int16_t *offset_x, int16_t *offset_y) {
     if (offset_x) *offset_x = s_offset_x;
     if (offset_y) *offset_y = s_offset_y;
 }
-// --- Fin gestión offset ---
 
 esp_err_t esp_lcd_touch_new_i2c_cst820(const esp_lcd_panel_io_handle_t io, const esp_lcd_touch_config_t *config, esp_lcd_touch_handle_t *tp)
 {
@@ -99,6 +97,9 @@ esp_err_t esp_lcd_touch_new_i2c_cst820(const esp_lcd_panel_io_handle_t io, const
     ESP_GOTO_ON_ERROR(read_id(cst820), err, TAG, "Read version failed");
     *tp = cst820;
 
+    ESP_LOGI(TAG, "LCD panel create success, version: %d.%d.%d", ESP_LCD_TOUCH_CST820_VER_MAJOR, ESP_LCD_TOUCH_CST820_VER_MINOR,
+             ESP_LCD_TOUCH_CST820_VER_PATCH);
+
     return ESP_OK;
 err:
     if (cst820) {
@@ -142,12 +143,12 @@ static bool get_xy(esp_lcd_touch_handle_t tp, uint16_t *x, uint16_t *y, uint16_t
     /* Count of points */
     *point_num = (tp->data.points > max_point_num ? max_point_num : tp->data.points);
     for (size_t i = 0; i < *point_num; i++) {
-        // Aplicar offset automáticamente
+
         int32_t raw_x = tp->data.coords[i].x;
         int32_t raw_y = tp->data.coords[i].y;
         int32_t adj_x = raw_x + s_offset_x;
         int32_t adj_y = raw_y + s_offset_y;
-        // Limitar a rango válido (0..65535)
+
         if (adj_x < 0) adj_x = 0;
         if (adj_x > 65535) adj_x = 65535;
         if (adj_y < 0) adj_y = 0;

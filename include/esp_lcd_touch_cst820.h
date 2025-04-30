@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 kode.
+ * SPDX-FileCopyrightText: 2025 KODE DIY, SL
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,20 @@ extern "C" {
 esp_err_t esp_lcd_touch_new_i2c_cst820(const esp_lcd_panel_io_handle_t io, const esp_lcd_touch_config_t *config, esp_lcd_touch_handle_t *tp);
 
 /**
+ * @brief Sets the calibration offset for touch CST820
+ * @param offset_x X-offset (positive displacement to the right)
+ * @param offset_y Y-offset (positive downward displacement)
+ */
+void cst820_set_touch_offset(int16_t offset_x, int16_t offset_y);
+
+/**
+ * @brief Gets the current calibration offset of the touch CST820
+ * @param offset_x Pointer where offset X is stored
+ * @param offset_y Pointer where offset Y is stored
+ */
+void cst820_get_touch_offset(int16_t *offset_x, int16_t *offset_y);
+
+/**
  * @brief I2C address of the CST820 controller
  *
  */
@@ -56,20 +70,6 @@ esp_err_t esp_lcd_touch_new_i2c_cst820(const esp_lcd_panel_io_handle_t io, const
         },                                                \
         .scl_speed_hz = 100000                            \
     }
-
-/**
- * @brief Establece el offset de calibración para el touch CST820
- * @param offset_x Offset en X (positivo desplaza a la derecha)
- * @param offset_y Offset en Y (positivo desplaza hacia abajo)
- */
-void cst820_set_touch_offset(int16_t offset_x, int16_t offset_y);
-
-/**
- * @brief Obtiene el offset de calibración actual del touch CST820
- * @param offset_x Puntero donde se almacena el offset X
- * @param offset_y Puntero donde se almacena el offset Y
- */
-void cst820_get_touch_offset(int16_t *offset_x, int16_t *offset_y);
 
 #ifdef __cplusplus
 }
